@@ -3,6 +3,27 @@ const it = require('mocha').it
 const expect = require('chai').expect
 const FluentValidator = require('./FluentValidator')
 
+const testData = {
+  booleanTrue: true,
+  booleanFalse: false,
+  null: null,
+  undefined: undefined,
+  integerNegativ: -1,
+  integerZero: 0,
+  integerPositive: 1,
+  floatNegative: -0.1,
+  floatPositive: 0.1,
+  stringEmpty: '',
+  stringAlpha: 'abc',
+  stringNumeric: '123',
+  stringAlphaNumeric: '123abc',
+  object: {},
+  arrayEmpty: [],
+  arrayInteger: [1, 2, 3, 4],
+  arrayString: ['a', 'b', 'c'],
+  symbol: Symbol('test')
+}
+
 describe('FluentValidator', () => {
   it('should be defined', () => {
     expect(FluentValidator).to.be.a('function')
@@ -12,63 +33,155 @@ describe('FluentValidator', () => {
     expect(new FluentValidator(undefined, 'name').createError('test').message).equals('name: test')
   })
   it('isArray should throw Error', async () => {
-    expect(() => new FluentValidator(1).isArray()).to.throw(Error)
-    expect(() => new FluentValidator({}).isArray()).to.throw(Error)
-    expect(() => new FluentValidator(undefined).isArray()).to.throw(Error)
-    expect(() => new FluentValidator('').isArray()).to.throw(Error)
-    expect(() => new FluentValidator([]).isArray()).to.not.throw(Error)
-    expect(() => new FluentValidator([1, 2, 3]).isArray()).to.not.throw(Error)
+    const notThrow = [
+      'arrayEmpty',
+      'arrayInteger',
+      'arrayString'
+    ]
+    for (const key of Object.keys(testData)) {
+      const e = expect(() => new FluentValidator(testData[key]).isArray(), key)
+      if (notThrow.indexOf(key) >= 0) {
+        e.to.not.throw(Error)
+      } else {
+        e.to.throw(Error)
+      }
+    }
+  })
+  it('isBoolean should throw Error', async () => {
+    const notThrow = [
+      'booleanTrue',
+      'booleanFalse'
+    ]
+    for (const key of Object.keys(testData)) {
+      const e = expect(() => new FluentValidator(testData[key]).isBoolean(), key)
+      if (notThrow.indexOf(key) >= 0) {
+        e.to.not.throw(Error)
+      } else {
+        e.to.throw(Error)
+      }
+    }
   })
   it('isString should throw Error', async () => {
-    expect(() => new FluentValidator(1).isString()).to.throw(Error)
-    expect(() => new FluentValidator({}).isString()).to.throw(Error)
-    expect(() => new FluentValidator(undefined).isString()).to.throw(Error)
-    expect(() => new FluentValidator('').isString()).to.not.throw(Error)
-    expect(() => new FluentValidator('123').isString()).to.not.throw(Error)
-    expect(() => new FluentValidator('ABC').isString()).to.not.throw(Error)
+    const notThrow = [
+      'stringEmpty',
+      'stringAlpha',
+      'stringNumeric',
+      'stringAlphaNumeric'
+    ]
+    for (const key of Object.keys(testData)) {
+      const e = expect(() => new FluentValidator(testData[key]).isString(), key)
+      if (notThrow.indexOf(key) >= 0) {
+        e.to.not.throw(Error)
+      } else {
+        e.to.throw(Error)
+      }
+    }
+  })
+  it('isString should throw Error', async () => {
+    const notThrow = [
+      'symbol'
+    ]
+    for (const key of Object.keys(testData)) {
+      const e = expect(() => new FluentValidator(testData[key]).isSymbol(), key)
+      if (notThrow.indexOf(key) >= 0) {
+        e.to.not.throw(Error)
+      } else {
+        e.to.throw(Error)
+      }
+    }
+  })
+  it('isNumber should throw Error', async () => {
+    const notThrow = [
+      'integerNegativ',
+      'integerZero',
+      'integerPositive',
+      'floatNegative',
+      'floatPositive'
+    ]
+    for (const key of Object.keys(testData)) {
+      const e = expect(() => new FluentValidator(testData[key]).isNumber(), key)
+      if (notThrow.indexOf(key) >= 0) {
+        e.to.not.throw(Error)
+      } else {
+        e.to.throw(Error)
+      }
+    }
   })
   it('isDefined should throw Error', async () => {
-    expect(() => new FluentValidator(undefined).isDefined()).to.throw(Error)
-    expect(() => new FluentValidator(null).isDefined()).to.throw(Error)
-    expect(() => new FluentValidator(0).isDefined()).to.not.throw(Error)
-    expect(() => new FluentValidator(1).isDefined()).to.not.throw(Error)
-    expect(() => new FluentValidator('').isDefined()).to.not.throw(Error)
-    expect(() => new FluentValidator('123').isDefined()).to.not.throw(Error)
-    expect(() => new FluentValidator('ABC').isDefined()).to.not.throw(Error)
-    expect(() => new FluentValidator({}).isDefined()).to.not.throw(Error)
+    const toThrow = [
+      'undefined',
+      'null'
+    ]
+    for (const key of Object.keys(testData)) {
+      const e = expect(() => new FluentValidator(testData[key]).isDefined(), key)
+      if (toThrow.indexOf(key) >= 0) {
+        e.to.throw(Error)
+      } else {
+        e.to.not.throw(Error)
+      }
+    }
   })
   it('isNotEmpty should throw Error', async () => {
-    expect(() => new FluentValidator(undefined).isNotEmpty()).to.throw(Error)
-    expect(() => new FluentValidator('').isNotEmpty()).to.throw(Error)
-    expect(() => new FluentValidator('abc').isNotEmpty()).to.not.throw(Error)
-    expect(() => new FluentValidator(123).isNotEmpty()).to.not.throw(Error)
-    expect(() => new FluentValidator({}).isNotEmpty()).to.not.throw(Error)
+    const toThrow = [
+      'undefined',
+      'stringEmpty'
+    ]
+    for (const key of Object.keys(testData)) {
+      const e = expect(() => new FluentValidator(testData[key]).isNotEmpty(), key)
+      if (toThrow.indexOf(key) >= 0) {
+        e.to.throw(Error)
+      } else {
+        e.to.not.throw(Error)
+      }
+    }
   })
   it('hasMinimumLength should throw Error', async () => {
-    expect(() => new FluentValidator('').hasMinimumLength(2)).to.throw(Error)
-    expect(() => new FluentValidator('a').hasMinimumLength(2)).to.throw(Error)
-    expect(() => new FluentValidator('aa').hasMinimumLength(2)).to.not.throw(Error)
-    expect(() => new FluentValidator([]).hasMinimumLength(2)).to.throw(Error)
-    expect(() => new FluentValidator([1]).hasMinimumLength(2)).to.throw(Error)
-    expect(() => new FluentValidator([1, 2]).hasMinimumLength(2)).to.not.throw(Error)
+    const notThrow = [
+      'stringAlpha',
+      'stringNumeric',
+      'stringAlphaNumeric',
+      'arrayInteger',
+      'arrayString'
+    ]
+    for (const key of Object.keys(testData)) {
+      const e = expect(() => new FluentValidator(testData[key]).hasMinimumLength(2), key)
+      if (notThrow.indexOf(key) >= 0) {
+        e.to.not.throw(Error)
+      } else {
+        e.to.throw(Error)
+      }
+    }
   })
   it('hasMaximumLength should throw Error', async () => {
-    expect(() => new FluentValidator('abcd').hasMaximumLength(2)).to.throw(Error)
-    expect(() => new FluentValidator('abc').hasMaximumLength(2)).to.throw(Error)
-    expect(() => new FluentValidator('aa').hasMaximumLength(2)).to.not.throw(Error)
-    expect(() => new FluentValidator('a').hasMaximumLength(2)).to.not.throw(Error)
-    expect(() => new FluentValidator('').hasMaximumLength(2)).to.not.throw(Error)
-    expect(() => new FluentValidator([1, 2, 3]).hasMaximumLength(2)).to.throw(Error)
-    expect(() => new FluentValidator([1, 2]).hasMaximumLength(2)).to.not.throw(Error)
-    expect(() => new FluentValidator([1]).hasMaximumLength(2)).to.not.throw(Error)
-    expect(() => new FluentValidator([]).hasMaximumLength(2)).to.not.throw(Error)
+    const notThrow = [
+      'stringEmpty',
+      'stringAlpha',
+      'stringNumeric',
+      'arrayEmpty',
+      'arrayString'
+    ]
+    for (const key of Object.keys(testData)) {
+      const e = expect(() => new FluentValidator(testData[key]).hasMaximumLength(3), key)
+      if (notThrow.indexOf(key) >= 0) {
+        e.to.not.throw(Error)
+      } else {
+        e.to.throw(Error)
+      }
+    }
   })
   it('hasLength should throw Error', async () => {
-    expect(() => new FluentValidator('abc').hasLength(2)).to.throw(Error)
-    expect(() => new FluentValidator('a').hasLength(2)).to.throw(Error)
-    expect(() => new FluentValidator('aa').hasLength(2)).to.not.throw(Error)
-    expect(() => new FluentValidator([1, 2, 3]).hasLength(2)).to.throw(Error)
-    expect(() => new FluentValidator([1, 2]).hasLength(2)).to.not.throw(Error)
-    expect(() => new FluentValidator([1]).hasLength(2)).to.throw(Error)
+    const notThrow = [
+      'stringAlpha',
+      'stringNumeric',
+      'arrayString'
+    ]
+    for (const key of Object.keys(testData)) {
+      const e = expect(() => new FluentValidator(testData[key]).hasLength(3), key)
+      if (notThrow.indexOf(key) >= 0) {
+        e.to.not.throw(Error)
+      } else {
+        e.to.throw(Error)
+      }
+    }
   })
 })

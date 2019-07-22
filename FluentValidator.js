@@ -27,8 +27,38 @@ class FluentValidator {
   /**
    * @returns {FluentValidator}
    */
+  isBoolean () {
+    if (typeof this.value !== 'boolean') {
+      throw this.createError('should be a boolean')
+    }
+    return this
+  }
+
+  /**
+   * @returns {FluentValidator}
+   */
+  isNumber () {
+    if (typeof this.value !== 'number') {
+      throw this.createError('should be a number')
+    }
+    return this
+  }
+
+  /**
+   * @returns {FluentValidator}
+   */
   isString () {
     if (typeof this.value !== 'string') {
+      throw this.createError('should be a string')
+    }
+    return this
+  }
+
+  /**
+   * @returns {FluentValidator}
+   */
+  isSymbol () {
+    if (typeof this.value !== 'symbol') {
       throw this.createError('should be a string')
     }
     return this
@@ -68,33 +98,36 @@ class FluentValidator {
   }
 
   /**
+   * Throws also when .length is not a number
    * @param {number} minLength
    * @returns {FluentValidator}
    */
   hasMinimumLength (minLength) {
-    if (this.value.length < minLength) {
+    if (typeof this.value.length !== 'number' || this.value.length < minLength) {
       throw this.createError('should have minumum length of ' + minLength)
     }
     return this
   }
 
   /**
+   * Throws also when .length is not a number
    * @param {number} maxLength
    * @returns {FluentValidator}
    */
   hasMaximumLength (maxLength) {
-    if (this.value.length > maxLength) {
+    if (typeof this.value.length !== 'number' || this.value.length > maxLength) {
       throw this.createError('should have maximum length of ' + maxLength)
     }
     return this
   }
 
   /**
+   * Throws also when .length is not a number
    * @param {number} length
    * @returns {FluentValidator}
    */
   hasLength (length) {
-    if (this.value.length !== length) {
+    if (typeof this.value.length !== 'number' || this.value.length !== length) {
       throw this.createError('should have length of ' + length)
     }
     return this

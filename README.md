@@ -15,7 +15,7 @@ npm install another-fluent-validator
 
 
 ```javascript
-const FluentValidator = require('fluent-validator')
+const FluentValidator = require('another-fluent-validator')
 
 // example object
 const myDirtyObject = {
@@ -34,7 +34,7 @@ let name  = new FluentValidator(myDirtyObject.name, 'my name')
   .isNotEmpty()
   .hasMinimumLength(3)
   .value
-// -> will throw Error with message: "my name: should be not empty"
+// -> will throw Error with message: "my name: should not be empty"
 }
 ```
 # Contributing & Development

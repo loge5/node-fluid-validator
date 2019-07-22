@@ -50,7 +50,7 @@ let value  = new FluentValidator(myDirtyObject.value, 'my value')
 }
 ```
 
-## static interface (returns boolean)
+## static interface
 
 Cant be use as pre-check (e.g. only validate when defined)
 

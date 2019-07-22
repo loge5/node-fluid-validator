@@ -47,6 +47,36 @@ class FluentValidator {
   /**
    * @returns {FluentValidator}
    */
+  isNumeric () {
+    if (
+      ['boolean', 'object'].indexOf(typeof this.value) >= 0 ||
+      (typeof this.value === 'string' && this.value.length === 0) ||
+      (typeof this.value !== 'number' && isNaN(this.value))
+    ) {
+      throw this.createError('should be numeric')
+    }
+    return this
+  }
+
+  /**
+   * @returns {integer}
+   */
+  toInteger () {
+    this.isNumeric(this.value)
+    return parseInt(this.value)
+  }
+
+  /**
+   * @returns {integer}
+   */
+  toFloat () {
+    this.isNumeric(this.value)
+    return parseFloat(this.value)
+  }
+
+  /**
+   * @returns {FluentValidator}
+   */
   isString () {
     if (typeof this.value !== 'string') {
       throw this.createError('should be a string')

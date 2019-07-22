@@ -32,7 +32,7 @@ describe('FluentValidator', () => {
     expect(new FluentValidator(undefined).createError('test').message).equals('test')
     expect(new FluentValidator(undefined, 'name').createError('test').message).equals('name: test')
   })
-  it('isArray should throw Error', async () => {
+  it('isArray should throw Error', () => {
     const notThrow = [
       'arrayEmpty',
       'arrayInteger',
@@ -47,7 +47,7 @@ describe('FluentValidator', () => {
       }
     }
   })
-  it('isBoolean should throw Error', async () => {
+  it('isBoolean should throw Error', () => {
     const notThrow = [
       'booleanTrue',
       'booleanFalse'
@@ -61,7 +61,7 @@ describe('FluentValidator', () => {
       }
     }
   })
-  it('isString should throw Error', async () => {
+  it('isString should throw Error', () => {
     const notThrow = [
       'stringEmpty',
       'stringAlpha',
@@ -77,7 +77,7 @@ describe('FluentValidator', () => {
       }
     }
   })
-  it('isString should throw Error', async () => {
+  it('isSymbol should throw Error', () => {
     const notThrow = [
       'symbol'
     ]
@@ -90,7 +90,7 @@ describe('FluentValidator', () => {
       }
     }
   })
-  it('isNumber should throw Error', async () => {
+  it('isNumber should throw Error', () => {
     const notThrow = [
       'integerNegativ',
       'integerZero',
@@ -107,7 +107,25 @@ describe('FluentValidator', () => {
       }
     }
   })
-  it('isDefined should throw Error', async () => {
+  it('isNumeric should throw Error', () => {
+    const notThrow = [
+      'integerNegativ',
+      'integerZero',
+      'integerPositive',
+      'floatNegative',
+      'floatPositive',
+      'stringNumeric'
+    ]
+    for (const key of Object.keys(testData)) {
+      const e = expect(() => new FluentValidator(testData[key]).isNumeric(), key)
+      if (notThrow.indexOf(key) >= 0) {
+        e.to.not.throw(Error)
+      } else {
+        e.to.throw(Error)
+      }
+    }
+  })
+  it('isDefined should throw Error', () => {
     const toThrow = [
       'undefined',
       'null'
@@ -121,7 +139,7 @@ describe('FluentValidator', () => {
       }
     }
   })
-  it('isNotEmpty should throw Error', async () => {
+  it('isNotEmpty should throw Error', () => {
     const toThrow = [
       'undefined',
       'stringEmpty'
@@ -135,7 +153,7 @@ describe('FluentValidator', () => {
       }
     }
   })
-  it('hasMinimumLength should throw Error', async () => {
+  it('hasMinimumLength should throw Error', () => {
     const notThrow = [
       'stringAlpha',
       'stringNumeric',
@@ -152,7 +170,7 @@ describe('FluentValidator', () => {
       }
     }
   })
-  it('hasMaximumLength should throw Error', async () => {
+  it('hasMaximumLength should throw Error', () => {
     const notThrow = [
       'stringEmpty',
       'stringAlpha',
@@ -169,7 +187,7 @@ describe('FluentValidator', () => {
       }
     }
   })
-  it('hasLength should throw Error', async () => {
+  it('hasLength should throw Error', () => {
     const notThrow = [
       'stringAlpha',
       'stringNumeric',
@@ -183,5 +201,45 @@ describe('FluentValidator', () => {
         e.to.throw(Error)
       }
     }
+  })
+  it('toInteger should return integer', () => {
+    const notThrow = [
+      'integerNegativ',
+      'integerZero',
+      'integerPositive',
+      'floatNegative',
+      'floatPositive',
+      'stringNumeric'
+    ]
+    for (const key of Object.keys(testData)) {
+      const e = expect(() => new FluentValidator(testData[key]).toInteger(), key)
+      if (notThrow.indexOf(key) >= 0) {
+        e.to.not.throw(Error)
+      } else {
+        e.to.throw(Error)
+      }
+    }
+    expect(new FluentValidator(1337).toInteger()).equal(1337)
+    expect(new FluentValidator('1337').toInteger()).equal(1337)
+  })
+  it('toFloat should return float', () => {
+    const notThrow = [
+      'integerNegativ',
+      'integerZero',
+      'integerPositive',
+      'floatNegative',
+      'floatPositive',
+      'stringNumeric'
+    ]
+    for (const key of Object.keys(testData)) {
+      const e = expect(() => new FluentValidator(testData[key]).toFloat(), key)
+      if (notThrow.indexOf(key) >= 0) {
+        e.to.not.throw(Error)
+      } else {
+        e.to.throw(Error)
+      }
+    }
+    expect(new FluentValidator(1337.12).toFloat()).equal(1337.12)
+    expect(new FluentValidator('1337.12').toFloat()).equal(1337.12)
   })
 })

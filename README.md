@@ -6,6 +6,11 @@
 
 **Simple validator, but with an fluent interface**
 
+# Features
+
+* Validate and assing in an fluent way
+* convert numeric values to `number`
+
 # Installation
 
 ```
@@ -20,7 +25,8 @@ const FluentValidator = require('another-fluent-validator')
 // example object
 const myDirtyObject = {
   code: 'ABC'
-  name: ''
+  name: '',
+  value: '123'
 }
 
 let code = new FluentValidator(myDirtyObject.code, 'my code')
@@ -35,6 +41,10 @@ let name  = new FluentValidator(myDirtyObject.name, 'my name')
   .hasMinimumLength(3)
   .value
 // -> will throw Error with message: "my name: should not be empty"
+
+let value  = new FluentValidator(myDirtyObject.value, 'my value')
+  .toInteger()
+// -> checks if "isNumeric" and casts to number (value = 123)
 }
 ```
 # Contributing & Development

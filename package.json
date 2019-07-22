@@ -1,6 +1,6 @@
 {
   "name": "another-fluent-validator",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "description": "variable validator based on a fluent interface",
   "main": "FluentValidator.js",
   "scripts": {

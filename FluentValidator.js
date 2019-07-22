@@ -125,6 +125,26 @@ class FluentValidator {
   /**
    * @param {*} value
    * @returns {boolean}
+   * @returns {RegExp} regExp
+   */
+  static matchRegExp (value, regExp) {
+    return typeof value === 'string' && value.match(regExp)
+  }
+
+  /**
+   * @param {RegExp} regExp
+   * @returns {FluentValidator}
+   */
+  matchRegExp (regExp) {
+    if (!this.constructor.matchRegExp(this.value, regExp)) {
+      throw this.createError('should matches ' + regExp.toString())
+    }
+    return this
+  }
+
+  /**
+   * @param {*} value
+   * @returns {boolean}
    */
   static isSymbol (value) {
     return typeof value === 'symbol'

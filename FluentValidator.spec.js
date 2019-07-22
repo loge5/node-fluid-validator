@@ -65,6 +65,22 @@ describe('FluentValidator', () => {
   })
   it('isString should throw Error', () => {
     const notThrow = [
+      'stringAlpha',
+      'stringAlphaNumeric',
+      'stringEmail',
+      'stringEmailInvalid'
+    ]
+    for (const key of Object.keys(testData)) {
+      const e = expect(() => new FluentValidator(testData[key]).matchRegExp(/[A-z]{3}/), key)
+      if (notThrow.indexOf(key) >= 0) {
+        e.to.not.throw(Error)
+      } else {
+        e.to.throw(Error)
+      }
+    }
+  })
+  it('matchRegExp should throw Error', () => {
+    const notThrow = [
       'stringEmpty',
       'stringAlpha',
       'stringNumeric',

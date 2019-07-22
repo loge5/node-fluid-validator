@@ -15,44 +15,74 @@ class FluentValidator {
   }
 
   /**
+   * @param {*} value
+   * @returns {boolean}
+   */
+  static isArray (value) {
+    return Array.isArray(value)
+  }
+
+  /**
    * @returns {FluentValidator}
    */
   isArray () {
-    if (typeof this.value !== 'object' || !Array.isArray(this.value)) {
+    if (!this.constructor.isArray(this.value)) {
       throw this.createError('should be a array')
     }
     return this
   }
 
   /**
+   * @param {*} value
+   * @returns {boolean}
+   */
+  static isBoolean (value) {
+    return typeof value === 'boolean'
+  }
+
+  /**
    * @returns {FluentValidator}
    */
   isBoolean () {
-    if (typeof this.value !== 'boolean') {
+    if (!this.constructor.isBoolean(this.value)) {
       throw this.createError('should be a boolean')
     }
     return this
   }
 
   /**
+   * @param {*} value
+   * @returns {boolean}
+   */
+  static isNumber (value) {
+    return typeof value === 'number'
+  }
+
+  /**
    * @returns {FluentValidator}
    */
   isNumber () {
-    if (typeof this.value !== 'number') {
+    if (!this.constructor.isNumber(this.value)) {
       throw this.createError('should be a number')
     }
     return this
   }
 
   /**
+   * @param {*} value
+   * @returns {boolean}
+   */
+  static isNumeric (value) {
+    return ['boolean', 'object'].indexOf(typeof value) < 0 &&
+    (typeof value !== 'string' || value.length > 0) &&
+    (typeof value === 'number' || !isNaN(value))
+  }
+
+  /**
    * @returns {FluentValidator}
    */
   isNumeric () {
-    if (
-      ['boolean', 'object'].indexOf(typeof this.value) >= 0 ||
-      (typeof this.value === 'string' && this.value.length === 0) ||
-      (typeof this.value !== 'number' && isNaN(this.value))
-    ) {
+    if (!this.constructor.isNumeric(this.value)) {
       throw this.createError('should be numeric')
     }
     return this
@@ -75,23 +105,47 @@ class FluentValidator {
   }
 
   /**
+   * @param {*} value
+   * @returns {boolean}
+   */
+  static isString (value) {
+    return typeof value === 'string'
+  }
+
+  /**
    * @returns {FluentValidator}
    */
   isString () {
-    if (typeof this.value !== 'string') {
+    if (!this.constructor.isString(this.value)) {
       throw this.createError('should be a string')
     }
     return this
   }
 
   /**
+   * @param {*} value
+   * @returns {boolean}
+   */
+  static isSymbol (value) {
+    return typeof value === 'symbol'
+  }
+
+  /**
    * @returns {FluentValidator}
    */
   isSymbol () {
-    if (typeof this.value !== 'symbol') {
+    if (!this.constructor.isSymbol(this.value)) {
       throw this.createError('should be a string')
     }
     return this
+  }
+
+  /**
+   * @param {*} value
+   * @returns {boolean}
+   */
+  static isDefined (value) {
+    return typeof value !== 'undefined' && (typeof value !== 'object' || value !== null)
   }
 
   /**
@@ -99,13 +153,35 @@ class FluentValidator {
    * @returns {FluentValidator}
    */
   isDefined () {
-    if (typeof this.value === 'undefined') {
-      throw this.createError('should be defined')
-    }
-    if (typeof this.value === 'object' && this.value === null) {
+    if (!this.constructor.isDefined(this.value)) {
       throw this.createError('should be defined')
     }
     return this
+  }
+
+  /**
+   * @param {*} value
+   * @returns {boolean}
+   */
+  static isNotEmpty (value) {
+    if (typeof value === 'undefined') {
+      return false
+    }
+    if (typeof value === 'string' && value.length === 0) {
+      return false
+    }
+    if (Array.isArray(value) && value.length === 0) {
+      return false
+    }
+    return true
+  }
+
+  /**
+   * @param {*} value
+   * @returns {boolean}
+   */
+  static isEmpty (value) {
+    return !this.isNotEmpty(value)
   }
 
   /**
@@ -113,18 +189,19 @@ class FluentValidator {
    * @returns {FluentValidator}
    */
   isNotEmpty () {
-    switch (typeof this.value) {
-      case 'undefined':
-        throw this.createError('should not be empty')
-      case 'string':
-        if (this.value.length === 0) {
-          throw this.createError('should not be empty')
-        }
-        break
-      default:
-        return this
+    if (this.constructor.isEmpty(this.value)) {
+      throw this.createError('should not be empty')
     }
     return this
+  }
+
+  /**
+   * @param {*} value
+   * @param {number} minLength
+   * @returns {boolean}
+   */
+  static hasMinimumLength (value, minLength) {
+    return typeof value.length === 'number' && value.length >= minLength
   }
 
   /**
@@ -133,10 +210,19 @@ class FluentValidator {
    * @returns {FluentValidator}
    */
   hasMinimumLength (minLength) {
-    if (typeof this.value.length !== 'number' || this.value.length < minLength) {
+    if (!this.constructor.hasMinimumLength(this.value, minLength)) {
       throw this.createError('should have minumum length of ' + minLength)
     }
     return this
+  }
+
+  /**
+   * @param {*} value
+   * @param {number} maxLength
+   * @returns {boolean}
+   */
+  static hasMaximumLength (value, maxLength) {
+    return typeof value.length === 'number' && value.length <= maxLength
   }
 
   /**
@@ -145,10 +231,19 @@ class FluentValidator {
    * @returns {FluentValidator}
    */
   hasMaximumLength (maxLength) {
-    if (typeof this.value.length !== 'number' || this.value.length > maxLength) {
+    if (!this.constructor.hasMaximumLength(this.value, maxLength)) {
       throw this.createError('should have maximum length of ' + maxLength)
     }
     return this
+  }
+
+  /**
+   * @param {*} value
+   * @param {number} length
+   * @returns {boolean}
+   */
+  static hasLength (value, length) {
+    return typeof value.length === 'number' && value.length === length
   }
 
   /**
@@ -157,7 +252,7 @@ class FluentValidator {
    * @returns {FluentValidator}
    */
   hasLength (length) {
-    if (typeof this.value.length !== 'number' || this.value.length !== length) {
+    if (!this.constructor.hasLength(this.value, length)) {
       throw this.createError('should have length of ' + length)
     }
     return this

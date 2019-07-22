@@ -9,15 +9,17 @@
 # Features
 
 * Validate and assing in an fluent way
-* convert numeric values to `number`
+* casting numeric values to `number`
+* additional static interface wich returns boolean
 
 # Installation
 
 ```
 npm install another-fluent-validator
 ```
-# Example
+# Examples
 
+## fluent interface
 
 ```javascript
 const FluentValidator = require('another-fluent-validator')
@@ -47,6 +49,15 @@ let value  = new FluentValidator(myDirtyObject.value, 'my value')
 // -> checks if "isNumeric" and casts to number (value = 123)
 }
 ```
+
+## static interface (returns boolean)
+
+Cant be use as pre-check (e.g. only validate when defined)
+
+```javascript
+FluentValidator.isArray('abc') // -> returns false
+```
+
 # Contributing & Development
 
 ## Style

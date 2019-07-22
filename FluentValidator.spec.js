@@ -142,7 +142,8 @@ describe('FluentValidator', () => {
   it('isNotEmpty should throw Error', () => {
     const toThrow = [
       'undefined',
-      'stringEmpty'
+      'stringEmpty',
+      'arrayEmpty'
     ]
     for (const key of Object.keys(testData)) {
       const e = expect(() => new FluentValidator(testData[key]).isNotEmpty(), key)

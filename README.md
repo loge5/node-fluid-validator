@@ -9,7 +9,7 @@
 # Installation
 
 ```
-npm install fluent-validator
+npm install another-fluent-validator
 ```
 # Example
 

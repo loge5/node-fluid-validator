@@ -17,6 +17,8 @@ const testData = {
   stringAlpha: 'abc',
   stringNumeric: '123',
   stringAlphaNumeric: '123abc',
+  stringEmail: 'test@test.de',
+  stringEmailInvalid: 'test@test',
   object: {},
   arrayEmpty: [],
   arrayInteger: [1, 2, 3, 4],
@@ -66,10 +68,25 @@ describe('FluentValidator', () => {
       'stringEmpty',
       'stringAlpha',
       'stringNumeric',
-      'stringAlphaNumeric'
+      'stringAlphaNumeric',
+      'stringEmail',
+      'stringEmailInvalid'
     ]
     for (const key of Object.keys(testData)) {
       const e = expect(() => new FluentValidator(testData[key]).isString(), key)
+      if (notThrow.indexOf(key) >= 0) {
+        e.to.not.throw(Error)
+      } else {
+        e.to.throw(Error)
+      }
+    }
+  })
+  it('isEmail should throw Error', () => {
+    const notThrow = [
+      'stringEmail'
+    ]
+    for (const key of Object.keys(testData)) {
+      const e = expect(() => new FluentValidator(testData[key]).isEmail(), key)
       if (notThrow.indexOf(key) >= 0) {
         e.to.not.throw(Error)
       } else {
@@ -159,6 +176,8 @@ describe('FluentValidator', () => {
       'stringAlpha',
       'stringNumeric',
       'stringAlphaNumeric',
+      'stringEmail',
+      'stringEmailInvalid',
       'arrayInteger',
       'arrayString'
     ]

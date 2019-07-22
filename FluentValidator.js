@@ -259,6 +259,25 @@ class FluentValidator {
   }
 
   /**
+   * @param {*} value
+   * @returns {boolean}
+   */
+  static isEmail (value) {
+    return typeof value === 'string' &&
+      value.match(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)
+  }
+
+  /**
+   * @returns {FluentValidator}
+   */
+  isEmail () {
+    if (!this.constructor.isEmail(this.value)) {
+      throw this.createError('should be an email address')
+    }
+    return this
+  }
+
+  /**
    * @param {string} msg
    */
   createError (msg) {

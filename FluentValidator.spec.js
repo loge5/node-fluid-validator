@@ -8,7 +8,7 @@ const testData = {
   booleanFalse: false,
   null: null,
   undefined: undefined,
-  integerNegativ: -1,
+  integerNegative: -1,
   integerZero: 0,
   integerPositive: 1,
   floatNegative: -0.1,
@@ -109,7 +109,7 @@ describe('FluentValidator', () => {
   })
   it('isNumber should throw Error', () => {
     const notThrow = [
-      'integerNegativ',
+      'integerNegative',
       'integerZero',
       'integerPositive',
       'floatNegative',
@@ -126,7 +126,7 @@ describe('FluentValidator', () => {
   })
   it('isNumeric should throw Error', () => {
     const notThrow = [
-      'integerNegativ',
+      'integerNegative',
       'integerZero',
       'integerPositive',
       'floatNegative',
@@ -168,6 +168,28 @@ describe('FluentValidator', () => {
         e.to.throw(Error)
       } else {
         e.to.not.throw(Error)
+      }
+    }
+  })
+  it('isOneOf should throw Error', () => {
+    const acceptedValues = [
+      false,
+      '123abc',
+      -1,
+      0.1
+    ]
+    const notThrow = [
+      'booleanFalse',
+      'stringAlphaNumeric',
+      'integerNegative',
+      'floatPositive'
+    ]
+    for (const key of Object.keys(testData)) {
+      const e = expect(() => new FluentValidator(testData[key]).isOneOf(acceptedValues), key)
+      if (notThrow.indexOf(key) >= 0) {
+        e.to.not.throw(Error)
+      } else {
+        e.to.throw(Error)
       }
     }
   })
@@ -224,7 +246,7 @@ describe('FluentValidator', () => {
   })
   it('toInteger should return integer', () => {
     const notThrow = [
-      'integerNegativ',
+      'integerNegative',
       'integerZero',
       'integerPositive',
       'floatNegative',
@@ -244,7 +266,7 @@ describe('FluentValidator', () => {
   })
   it('toFloat should return float', () => {
     const notThrow = [
-      'integerNegativ',
+      'integerNegative',
       'integerZero',
       'integerPositive',
       'floatNegative',

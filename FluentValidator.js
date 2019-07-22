@@ -278,6 +278,25 @@ class FluentValidator {
   }
 
   /**
+   * @param {*} value
+   * @param {array} acceptedValues
+   */
+  static isOneOf (value, acceptedValues) {
+    return acceptedValues.indexOf(value) >= 0
+  }
+
+  /**
+   * @param {array} acceptedValues
+   * @returns {FluentValidator}
+   */
+  isOneOf (acceptedValues) {
+    if (!this.constructor.isOneOf(this.value, acceptedValues)) {
+      throw this.createError('should be an accepted value')
+    }
+    return this
+  }
+
+  /**
    * @param {string} msg
    */
   createError (msg) {

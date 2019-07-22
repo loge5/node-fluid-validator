@@ -7,6 +7,18 @@ describe('FluentValidator', () => {
   it('should be defined', () => {
     expect(FluentValidator).to.be.a('function')
   })
+  it('createError should set name to error message', () => {
+    expect(new FluentValidator(undefined).createError('test').message).equals('test')
+    expect(new FluentValidator(undefined, 'name').createError('test').message).equals('name: test')
+  })
+  it('isArray should throw Error', async () => {
+    expect(() => new FluentValidator(1).isArray()).to.throw(Error)
+    expect(() => new FluentValidator({}).isArray()).to.throw(Error)
+    expect(() => new FluentValidator(undefined).isArray()).to.throw(Error)
+    expect(() => new FluentValidator('').isArray()).to.throw(Error)
+    expect(() => new FluentValidator([]).isArray()).to.not.throw(Error)
+    expect(() => new FluentValidator([1, 2, 3]).isArray()).to.not.throw(Error)
+  })
   it('isString should throw Error', async () => {
     expect(() => new FluentValidator(1).isString()).to.throw(Error)
     expect(() => new FluentValidator({}).isString()).to.throw(Error)

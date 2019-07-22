@@ -4,7 +4,8 @@
   "description": "variable validator based on a fluent interface",
   "main": "FluentValidator.js",
   "scripts": {
-    "test": "node node_modules/mocha/bin/mocha FluentValidator.spec.js"
+    "test": "node node_modules/mocha/bin/mocha FluentValidator.spec.js",
+    "cover": "node node_modules/nyc/bin/nyc.js --reporter=html npm test"
   },
   "repository": {
     "type": "git",

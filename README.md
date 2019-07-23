@@ -2,14 +2,14 @@
 [![Dependencies](https://david-dm.org/loge5/node-fluent-validator.svg)](https://david-dm.org/loge5/node-fluent-validator) 
 [![devDependencies Status](https://david-dm.org/loge5/node-fluent-validator/dev-status.svg)](https://david-dm.org/loge5/node-fluent-validator?type=dev)
 
-# another fluent-validator
+# another-fluent-validator
 
 **Simple validator, but with an fluent interface**
 
 # Features
 
-* Validate and assing in an fluent way
-* casting numeric values to `number`
+* Validate and assign in an fluent way
+* casting numeric values directly to `number`
 * additional static interface wich returns boolean
 
 # Installation

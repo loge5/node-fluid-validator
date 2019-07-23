@@ -322,7 +322,7 @@ class FluentValidator {
   createError (msg) {
     let errorMessage = msg
     if (typeof this.name === 'string') {
-      errorMessage = `${this.name}: ${msg}`
+      errorMessage = `${this.name} ${msg}`
     }
     return new Error(errorMessage)
   }

@@ -42,7 +42,7 @@ let name  = new FluentValidator(myDirtyObject.name, 'my name')
   .isNotEmpty()
   .hasMinimumLength(3)
   .value
-// -> will throw Error with message: "my name: should not be empty"
+// -> will throw Error with message: "my name should not be empty"
 
 let value  = new FluentValidator(myDirtyObject.value, 'my value')
   .toInteger()

@@ -3,14 +3,21 @@
  *
  * Example Usage:
  * let validString = new FluentValidator('test').isString().isNotEmpty().value
+ * @author Rolf Loges
  */
 class FluentValidator {
   /**
-   * @param {*} value
+   * @param {*} value witch should be validated
    * @param {string} name for custom error messages
    */
   constructor (value, name) {
+    /**
+     * @member {*} value witch should be validated
+     */
     this.value = value
+    /**
+     * @member {string} name for custom error messages
+     */
     this.name = name
   }
 
@@ -124,8 +131,8 @@ class FluentValidator {
 
   /**
    * @param {*} value
+   * @param {RegExp} regExp
    * @returns {boolean}
-   * @returns {RegExp} regExp
    */
   static matchRegExp (value, regExp) {
     return typeof value === 'string' && value.match(regExp)
@@ -300,6 +307,7 @@ class FluentValidator {
   /**
    * @param {*} value
    * @param {array} acceptedValues
+   * @returns {boolean}
    */
   static isOneOf (value, acceptedValues) {
     return acceptedValues.indexOf(value) >= 0
@@ -318,6 +326,7 @@ class FluentValidator {
 
   /**
    * @param {string} msg
+   * @return {Error}
    */
   createError (msg) {
     let errorMessage = msg

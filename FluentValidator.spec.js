@@ -32,7 +32,7 @@ describe('FluentValidator', () => {
   })
   it('createError should set name to error message', () => {
     expect(new FluentValidator(undefined).createError('test').message).equals('test')
-    expect(new FluentValidator(undefined, 'name').createError('test').message).equals('name: test')
+    expect(new FluentValidator(undefined, 'name').createError('test').message).equals('name test')
   })
   it('isArray should throw Error', () => {
     const notThrow = [

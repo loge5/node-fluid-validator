@@ -23,10 +23,10 @@
   },
   "homepage": "https://github.com/loge5/node-fluent-validator#readme",
   "devDependencies": {
-    "chai": "^4.2.0",
-    "mocha": "^8.0.1",
+    "chai": "^4.3.4",
+    "mocha": "^8.3.2",
     "nyc": "^15.1.0",
-    "standard": "^14.3.4"
+    "standard": "^16.0.3"
   },
   "nyc": {
     "exclude": [
